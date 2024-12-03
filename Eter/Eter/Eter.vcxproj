@@ -127,7 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActiveMatch.cpp" />
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Eter.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Wizard.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ActiveMatch.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
