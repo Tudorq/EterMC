@@ -19,12 +19,12 @@ void Game::createGame()
 	std::cout << "Introduceti numele jucatorului 2: ";
 	std::cin >> name2;
 
-	this->player1 = Player(name1);
-	this->player2 = Player(name2);
+	this->player1 = std::make_unique<Player>(name1);
+	this->player2 = std::make_unique<Player>(name2);
 
 	std::cout << "Jucatorii au fost creati \n\n";
 
-	std::cout << "Bine ati venit " << this->player1.getName() << " si " << this->player2.getName() << "\n\n";
+	std::cout << "Bine ati venit " << this->player1->getName() << " si " << this->player2->getName() << "\n\n";
 
 	std::cout << "Alegeti modul de joc: \n 1. Modul antrenament \n 2. Duelul vrajitorilor \n ";
 	std::cin >> selectedGameMode;
@@ -38,5 +38,33 @@ void Game::createGame()
 }
 
 void Game::startGame()
+{
+	if (this->gameMode == 1) {
+		this->startGameModeTraining();
+	}
+	else if (this->gameMode == 2) {
+		this->startGameModeWizard();
+	}
+}
+
+void Game::startGameModeTraining()
+{
+	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
+	std::unique_ptr<Board> currentMatchBoard;
+
+	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
+		this->player1->setDeckForGameMode(1);
+		this->player2->setDeckForGameMode(2);
+		std::unique_ptr<Board> currentMatchBoard = std::make_unique<Board>(1);
+
+
+
+	}
+
+
+
+}
+
+void Game::startGameModeWizard()
 {
 }

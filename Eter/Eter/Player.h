@@ -9,6 +9,7 @@ private:
 	std::string name;
 	Wizard wizard;
 	std::vector<int> deck;
+	bool hasWizard;
 
 public:
 	Player();
@@ -19,6 +20,7 @@ public:
 	Wizard getWizard();
 	void setDeck(std::vector<int> deck);
 	std::vector<int> getDeck();
+	void setDeckForGameMode(int gameMode);
 
 };
 
