@@ -10,6 +10,7 @@ private:
 	Wizard wizard;
 	std::vector<int> deck;
 	bool hasWizard;
+	bool usedWizard;
 
 public:
 	Player();

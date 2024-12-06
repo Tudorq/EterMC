@@ -5,5 +5,6 @@ int main()
 {
     Game currentGame = Game();
     currentGame.createGame();
+    currentGame.startGame();
     
 }

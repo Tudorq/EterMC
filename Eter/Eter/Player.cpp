@@ -3,12 +3,14 @@
 Player::Player()
 {
 	this->hasWizard = 0;
+	this->usedWizard = 0;
 }
 
 Player::Player(std::string name)
 {
 	this->setName(name);
 	this->hasWizard = 0;
+	this->usedWizard = 0;
 }
 
 void Player::setName(std::string name)

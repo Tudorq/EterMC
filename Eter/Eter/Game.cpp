@@ -19,8 +19,8 @@ void Game::createGame()
 	std::cout << "Introduceti numele jucatorului 2: ";
 	std::cin >> name2;
 
-	this->player1 = std::make_unique<Player>(name1);
-	this->player2 = std::make_unique<Player>(name2);
+	this->player1 = std::make_shared<Player>(name1);
+	this->player2 = std::make_shared<Player>(name2);
 
 	std::cout << "Jucatorii au fost creati \n\n";
 
@@ -50,12 +50,15 @@ void Game::startGame()
 void Game::startGameModeTraining()
 {
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
-	std::unique_ptr<Board> currentMatchBoard;
-
 	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
 		this->player1->setDeckForGameMode(1);
 		this->player2->setDeckForGameMode(2);
-		std::unique_ptr<Board> currentMatchBoard = std::make_unique<Board>(1);
+
+		ActiveMatch match = ActiveMatch(player1, player2, 1);
+
+		match.startMatch();
+		break;
+
 
 
 
