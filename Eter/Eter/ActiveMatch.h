@@ -14,6 +14,7 @@ private:
 public:
 	ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2, int gameMode);
 	int startMatch();
+	void startTurn(std::shared_ptr<Player> currentPlayer);
 
 };
 

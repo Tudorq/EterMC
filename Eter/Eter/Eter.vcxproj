@@ -131,6 +131,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Eter.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="PlacedDeck.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Wizard.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="ActiveMatch.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PlacedDeck.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
