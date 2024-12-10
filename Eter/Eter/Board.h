@@ -12,6 +12,8 @@ public:
 	Board();
 	Board(bool isTrainingBoard);
 	void addCard(int card, int posX, int posY);
+	bool checkIfCardIsInsideBoard(int posX, int posY);
+	bool checkIfCardCanBePlacedOnBoard(int card, int posX, int posY);
 	void removeCard(int card, int posX, int posY);
 	std::vector<std::vector<int>> getBoard();
 	friend std::ostream& operator << (std::ostream& out, const Board board);
