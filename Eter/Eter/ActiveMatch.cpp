@@ -65,4 +65,6 @@ void ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 	std::cout << "Alege pozitia(x,y): ";
 
 	std::cin >> x >> y;
+
+	this->board.addCard(cardPicked, x, y);
 }

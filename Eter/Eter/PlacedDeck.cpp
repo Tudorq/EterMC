@@ -3,22 +3,32 @@
 PlacedDeck::PlacedDeck()
 {
 	this->placedCards = {};
-	this->posX = -1;
-	this->posY = -1;
+	this->pos.first = -1;
+	this->pos.second = -1;
 }
 
 PlacedDeck::PlacedDeck(int initialCard, int posX, int posY)
 {
 	this->placedCards.push_back(initialCard);
-	this->posX = posX;
-	this->posY = posY;
+	this->pos.first = posX;
+	this->pos.second = posY;
+}
+
+void PlacedDeck::addCardToDeck(int card)
+{
+	this->placedCards.push_back(card);
+}
+
+int PlacedDeck::getLastCard()
+{
+	return this->placedCards.back();
 }
 
 PlacedDeck& PlacedDeck::operator=(const PlacedDeck& node)
 {
 	this->placedCards = node.placedCards;
-	this->posX = node.posX;
-	this->posY = node.posY;
+	this->pos.first = node.pos.first;
+	this->pos.second = node.pos.second;
 
 	return *this;
 }

@@ -8,7 +8,7 @@ Board::Board()
 Board::Board(bool isTrainingBoard)
 {
 	this->isTrainingBoard = isTrainingBoard;
-	this->boardMatrix = { {1, 2}, {4, 5} };
+	this->boardMatrix = {};
 };
 
 
@@ -17,9 +17,9 @@ void Board::addCard(int card, int posX, int posY)
 {
 	
 	if (!this->checkIfCardIsInsideBoard(posX, posY)) {
-		std::vector<std::vector<int>> aux(this->boardMatrix.size() + 1, std::vector<int>(this->boardMatrix.size() + 1, -1));
-
-		this->boardMatrix[posX][posY] = card;
+		std::vector<std::vector<PlacedDeck>> aux(this->boardMatrix.size() + 1, std::vector<PlacedDeck>(this->boardMatrix.size() + 1, PlacedDeck(0, 0, 0)));
+		
+		this->boardMatrix[posX][posY].addCardToDeck(card);
 
 		if (posX == 0 || posY == 0) {
 			for (int i = 0; i < this->boardMatrix.size(); i++) {
@@ -27,6 +27,8 @@ void Board::addCard(int card, int posX, int posY)
 					aux[i + 1][j + 1] = this->boardMatrix[i][j];
 				}
 			}
+
+			this->boardMatrix = aux;
 		}
 		else {
 			for (int i = 0; i < this->boardMatrix.size(); i++) {
@@ -34,13 +36,12 @@ void Board::addCard(int card, int posX, int posY)
 					aux[i][j] = this->boardMatrix[i][j];
 				}
 			}
+
+			this->boardMatrix = aux;
 		}
 	}
-	else {
 
-	}
-
-	this->boardMatrix[posX][posY] = card;
+	this->boardMatrix[posX][posY].addCardToDeck(card);
 }
 
 bool Board::checkIfCardIsInsideBoard(int posX, int posY)
@@ -67,18 +68,18 @@ void Board::removeCard(int card, int posX, int posY)
 {
 }
 
-std::vector<std::vector<int>> Board::getBoard()
+std::vector<std::vector<PlacedDeck>> Board::getBoard()
 {
 	return this->boardMatrix;
 }
 
-std::ostream& operator<<(std::ostream& out, const Board board)
+std::ostream& operator<<(std::ostream& out, Board board)
 {
 	
 	if (board.boardMatrix.size() == 1) {
 
 		out << "00" << " " << "01" << " " << "02" << "\n";
-		out<<10<< "|" << board.boardMatrix[0][0] << "|" << 12 << "\n";
+		out<<10<< "|" << board.boardMatrix[0][0].getLastCard() << "|" << 12 << "\n";
 		out << 20 << " " << 21 << " " << 22 << "\n";
  
 		return out;
@@ -89,7 +90,7 @@ std::ostream& operator<<(std::ostream& out, const Board board)
 		for (int i = 0; i < board.boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[i][j];
+				out << "|" << board.boardMatrix[0][0].getLastCard();
 			}
 			out << "| " << i + 1 << 3 << "\n";
 		}
@@ -103,7 +104,7 @@ std::ostream& operator<<(std::ostream& out, const Board board)
 		for (int i = 0; i < board.boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[i][j];
+				out << "|" << board.boardMatrix[0][0].getLastCard();
 			}
 			out << "| " << i + 1 << 4 << "\n";
 		}
@@ -114,7 +115,7 @@ std::ostream& operator<<(std::ostream& out, const Board board)
 
 	for (int i = 0; i < board.boardMatrix.size(); i++) {
 		for (int j = 0; j < board.boardMatrix.size(); j++) {
-			out << "|" << board.boardMatrix[i][j];
+			out << "|" << board.boardMatrix[0][0].getLastCard();
 		}
 		out << "|" << "\n";
 	}
