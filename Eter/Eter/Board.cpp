@@ -7,46 +7,47 @@ Board::Board()
 
 Board::Board(bool isTrainingBoard)
 {
-	this->isTrainingBoard = isTrainingBoard;
-	this->boardMatrix = {};
+	m_isTrainingBoard = isTrainingBoard;
+	m_boardMatrix = {};
 };
 
 
 
-void Board::addCard(int card, int posX, int posY)
+void Board::addCard(int card, int posX, int posY, std::string playerName)
 {
+	Card NewCard{ card, playerName };
 	
-	if (!this->checkIfCardIsInsideBoard(posX, posY)) {
-		std::vector<std::vector<PlacedDeck>> aux(this->boardMatrix.size() + 1, std::vector<PlacedDeck>(this->boardMatrix.size() + 1, PlacedDeck(-1, 0, 0)));
+	if (!checkIfCardIsInsideBoard(posX, posY)) {
+		std::vector<std::vector<PlacedDeck>> aux(m_boardMatrix.size() + 1, std::vector<PlacedDeck>(m_boardMatrix.size() + 1, PlacedDeck(Card(-1, ""), 0, 0)));
 		
 		if (posX == 0 || posY == 0) {
-			for (int i = 0; i < this->boardMatrix.size(); i++) {
-				for (int j = 0; j < this->boardMatrix.size(); j++) {
-					aux[i + 1][j + 1] = this->boardMatrix[i][j];
+			for (int i = 0; i < m_boardMatrix.size(); i++) {
+				for (int j = 0; j < m_boardMatrix.size(); j++) {
+					aux[i + 1][j + 1] = m_boardMatrix[i][j];
 				}
 			}
 		}
 		else {
-			for (int i = 0; i < this->boardMatrix.size(); i++) {
-				for (int j = 0; j < this->boardMatrix.size(); j++) {
-					aux[i][j] = this->boardMatrix[i][j];
+			for (int i = 0; i < m_boardMatrix.size(); i++) {
+				for (int j = 0; j < m_boardMatrix.size(); j++) {
+					aux[i][j] = m_boardMatrix[i][j];
 				}
 			}
 		}
-		this->boardMatrix = aux;
-		this->boardMatrix[posX][posY].addCardToDeck(card);
+		m_boardMatrix = aux;
+		m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 
 	}
 	else {
-		this->boardMatrix[posX][posY].addCardToDeck(card);
+		m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 
 	}
 }
 
 bool Board::checkIfCardIsInsideBoard(int posX, int posY)
 {
-	if ((!this->isTrainingBoard && this->boardMatrix.size() < 4) || (this->isTrainingBoard && this->boardMatrix.size() < 3)) {
-		if (posX == 0 || posX > this->boardMatrix.size() || posY == 0 || posY > this->boardMatrix.size()) {
+	if ((!m_isTrainingBoard && m_boardMatrix.size() < 4) || (m_isTrainingBoard && m_boardMatrix.size() < 3)) {
+		if (posX == 0 || posX > m_boardMatrix.size() || posY == 0 || posY > m_boardMatrix.size()) {
 			return false;
 		}
 	}
@@ -56,7 +57,7 @@ bool Board::checkIfCardIsInsideBoard(int posX, int posY)
 
 bool Board::checkIfCardCanBePlacedOnBoard(int card, int posX, int posY)
 {
-	if (!this->checkIfCardIsInsideBoard(posX, posY)) {
+	if (!checkIfCardIsInsideBoard(posX, posY)) {
 		return true;
 	}
 
@@ -69,27 +70,27 @@ void Board::removeCard(int card, int posX, int posY)
 
 std::vector<std::vector<PlacedDeck>> Board::getBoard()
 {
-	return this->boardMatrix;
+	return m_boardMatrix;
 }
 
 std::ostream& operator<<(std::ostream& out, Board board)
 {
 	
-	if (board.boardMatrix.size() == 1) {
+	if (board.m_boardMatrix.size() == 1) {
 
 		out << "00" << " " << "01" << " " << "02" << "\n";
-		out<<10<< "|" << board.boardMatrix[0][0].getLastCard() << "|" << 12 << "\n";
+		out<<10<< "|" << board.m_boardMatrix[0][0].getLastCard().getCardValue() << "|" << 12 << "\n";
 		out << 20 << " " << 21 << " " << 22 << "\n";
  
 		return out;
 	}
 
-	if (board.boardMatrix.size() == 2) {
+	if (board.m_boardMatrix.size() == 2) {
 		out << "00" << " " << "01" << " " << "02 " << "03" << "\n";
-		for (int i = 0; i < board.boardMatrix.size(); i++) {
+		for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
-			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[i][j].getLastCard();
+			for (int j = 0; j < board.m_boardMatrix.size(); j++) {
+				out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
 			}
 			out << "| " << i + 1 << 3 << "\n";
 		}
@@ -98,12 +99,12 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		return out;
 	}
 
-	if (board.boardMatrix.size() == 3 && board.isTrainingBoard) {
+	if (board.m_boardMatrix.size() == 3 && board.m_isTrainingBoard) {
 		out << "00" << " " << "01" << " " << "02 " << "03" << " 04" << "\n";
-		for (int i = 0; i < board.boardMatrix.size(); i++) {
+		for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
-			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[i][j].getLastCard();
+			for (int j = 0; j < board.m_boardMatrix.size(); j++) {
+				out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
 			}
 			out << "| " << i + 1 << 4 << "\n";
 		}
@@ -112,9 +113,9 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		return out;
 	}
 
-	for (int i = 0; i < board.boardMatrix.size(); i++) {
-		for (int j = 0; j < board.boardMatrix.size(); j++) {
-			out << "|" << board.boardMatrix[i][j].getLastCard();
+	for (int i = 0; i < board.m_boardMatrix.size(); i++) {
+		for (int j = 0; j < board.m_boardMatrix.size(); j++) {
+			out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
 		}
 		out << "|" << "\n";
 	}

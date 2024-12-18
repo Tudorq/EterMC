@@ -9,11 +9,11 @@ class Game
 {
 
 private:
-	int gameMode;
-	std::shared_ptr<Player> player1;
-	std::shared_ptr<Player> player2;
-	int playerScore1;
-	int playerScore2;
+	int m_gameMode;
+	std::shared_ptr<Player> m_player1;
+	std::shared_ptr<Player> m_player2;
+	int m_playerScore1;
+	int m_playerScore2;
 
 public:
 	Game();

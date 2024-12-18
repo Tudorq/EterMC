@@ -6,11 +6,11 @@ class Player
 {
 
 private:
-	std::string name;
-	Wizard wizard;
-	std::vector<int> deck;
-	bool hasWizard;
-	bool usedWizard;
+	std::string m_name;
+	Wizard m_wizard;
+	std::vector<int> m_deck;
+	bool m_hasWizard;
+	bool m_usedWizard;
 
 public:
 	Player();

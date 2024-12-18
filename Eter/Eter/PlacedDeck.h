@@ -7,8 +7,8 @@
 class PlacedDeck
 {
 private:
-	std::vector<Card> placedCards;
-	std::pair<int, int> pos;
+	std::vector<Card> m_placedCards;
+	std::pair<int, int> m_pos;
 
 public:
 	PlacedDeck();

@@ -2,9 +2,9 @@
 
 Game::Game()
 {
-	this->playerScore1 = 0;
-	this->playerScore2 = 0;
-	this->gameMode = 0;
+	m_playerScore1 = 0;
+	m_playerScore2 = 0;
+	m_gameMode = 0;
 }
 
 void Game::createGame()
@@ -19,12 +19,12 @@ void Game::createGame()
 	std::cout << "Introduceti numele jucatorului 2: ";
 	std::cin >> name2;
 
-	this->player1 = std::make_shared<Player>(name1);
-	this->player2 = std::make_shared<Player>(name2);
+	m_player1 = std::make_shared<Player>(name1);
+	m_player2 = std::make_shared<Player>(name2);
 
 	std::cout << "Jucatorii au fost creati \n\n";
 
-	std::cout << "Bine ati venit " << this->player1->getName() << " si " << this->player2->getName() << "\n\n";
+	std::cout << "Bine ati venit " << m_player1->getName() << " si " << m_player2->getName() << "\n\n";
 
 	std::cout << "Alegeti modul de joc: \n 1. Modul antrenament \n 2. Duelul vrajitorilor \n ";
 	std::cin >> selectedGameMode;
@@ -34,16 +34,16 @@ void Game::createGame()
 		std::cin >> selectedGameMode;
 	}
 
-	this->gameMode = selectedGameMode;
+	m_gameMode = selectedGameMode;
 }
 
 void Game::startGame()
 {
-	if (this->gameMode == 1) {
-		this->startGameModeTraining();
+	if (m_gameMode == 1) {
+		startGameModeTraining();
 	}
-	else if (this->gameMode == 2) {
-		this->startGameModeWizard();
+	else if (m_gameMode == 2) {
+		startGameModeWizard();
 	}
 }
 
@@ -51,10 +51,10 @@ void Game::startGameModeTraining()
 {
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
 	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
-		player1->setDeckForGameMode(1);
-		player2->setDeckForGameMode(2);
+		m_player1->setDeckForGameMode(1);
+		m_player2->setDeckForGameMode(2);
 
-		ActiveMatch match{player1, player2, 1};
+		ActiveMatch match{m_player1, m_player2, 1};
 
 		match.startMatch();
 		break;

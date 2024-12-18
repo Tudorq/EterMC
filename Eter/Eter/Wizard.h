@@ -2,7 +2,7 @@
 class Wizard
 {
 private:
-	int type;
+	int m_type;
 public:
 	Wizard();
 	Wizard(int type);

@@ -3,11 +3,11 @@
 
 ActiveMatch::ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2, int gameMode)
 {
-	this->player1 = player1;
-	this->player2 = player2;
-	this->currentPlayer = 1;
-	this->isFinished = false;
-	this->board = Board(gameMode);
+	m_player1 = player1;
+	m_player2 = player2;
+	m_currentPlayer = 1;
+	m_isFinished = false;
+	m_board = Board(gameMode);
 }
 
 int ActiveMatch::startMatch()
@@ -20,22 +20,14 @@ int ActiveMatch::startMatch()
 
 
 
-	while (!isFinished) {
-
-		/*for (int i = 0; i < this->board.getBoard().size(); i++) {
-			for (int j = 0; j < this->board.getBoard()[0].size(); j++) {
-				std::cout << " " << this->board.getBoard()[i][j] << "(" << i + 1 << "," << j + 1 << ")" << " ";
-			}
-			std::cout << "\n";
-		}*/
-
-		std::cout << board;
-		if (currentPlayer == 1) {
-			this->startTurn(this->player1);
+	while (!m_isFinished) {
+		std::cout << m_board;
+		if (m_currentPlayer == 1) {
+			startTurn(m_player1);
 
 		}
 		else {
-			this->startTurn(this->player2);
+			startTurn(m_player2);
 		}
 
 	}
@@ -64,5 +56,5 @@ void ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 
 	std::cin >> x >> y;
 
-	this->board.addCard(cardPicked, x, y);
+	m_board.addCard(cardPicked, x, y, currentPlayer->getName());
 }

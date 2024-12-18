@@ -2,43 +2,43 @@
 
 Player::Player()
 {
-	this->hasWizard = 0;
-	this->usedWizard = 0;
+	m_hasWizard = 0;
+	m_usedWizard = 0;
 }
 
 Player::Player(std::string name)
 {
-	this->setName(name);
-	this->hasWizard = 0;
-	this->usedWizard = 0;
+	setName(name);
+	m_hasWizard = 0;
+	m_usedWizard = 0;
 }
 
 void Player::setName(std::string name)
 {
-	this->name = name;
+	m_name = name;
 }
 
 std::string Player::getName()
 {
-	return this->name;
+	return m_name;
 }
 
 void Player::setDeck(std::vector<int> deck)
 {
-	this->deck = deck;
+	m_deck = deck;
 }
 
 std::vector<int> Player::getDeck()
 {
-	return this->deck;
+	return m_deck;
 }
 
 void Player::setDeckForGameMode(int gameMode)
 {
 	if (gameMode == 1) {
-		this->deck = { 1, 1, 2, 2, 3, 3, 4 };
+		m_deck = { 1, 1, 2, 2, 3, 3, 4 };
 	}
 	else if (gameMode == 2) {
-		this->deck = { 1, 1, 2, 2, 2, 3, 3, 3, 4, 0 };
+		m_deck = { 1, 1, 2, 2, 2, 3, 3, 3, 4, 0 };
 	}
 }
