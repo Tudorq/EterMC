@@ -51,10 +51,10 @@ void Game::startGameModeTraining()
 {
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
 	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
-		this->player1->setDeckForGameMode(1);
-		this->player2->setDeckForGameMode(2);
+		player1->setDeckForGameMode(1);
+		player2->setDeckForGameMode(2);
 
-		ActiveMatch match = ActiveMatch(player1, player2, 1);
+		ActiveMatch match{player1, player2, 1};
 
 		match.startMatch();
 		break;

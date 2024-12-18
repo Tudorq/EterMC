@@ -7,19 +7,19 @@ PlacedDeck::PlacedDeck()
 	this->pos.second = -1;
 }
 
-PlacedDeck::PlacedDeck(int initialCard, int posX, int posY)
+PlacedDeck::PlacedDeck(Card initialCard, int posX, int posY)
 {
 	this->placedCards.push_back(initialCard);
 	this->pos.first = posX;
 	this->pos.second = posY;
 }
 
-void PlacedDeck::addCardToDeck(int card)
+void PlacedDeck::addCardToDeck(Card card)
 {
 	this->placedCards.push_back(card);
 }
 
-int PlacedDeck::getLastCard()
+Card PlacedDeck::getLastCard()
 {
 	return this->placedCards.back();
 }

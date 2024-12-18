@@ -17,18 +17,14 @@ void Board::addCard(int card, int posX, int posY)
 {
 	
 	if (!this->checkIfCardIsInsideBoard(posX, posY)) {
-		std::vector<std::vector<PlacedDeck>> aux(this->boardMatrix.size() + 1, std::vector<PlacedDeck>(this->boardMatrix.size() + 1, PlacedDeck(0, 0, 0)));
+		std::vector<std::vector<PlacedDeck>> aux(this->boardMatrix.size() + 1, std::vector<PlacedDeck>(this->boardMatrix.size() + 1, PlacedDeck(-1, 0, 0)));
 		
-		this->boardMatrix[posX][posY].addCardToDeck(card);
-
 		if (posX == 0 || posY == 0) {
 			for (int i = 0; i < this->boardMatrix.size(); i++) {
 				for (int j = 0; j < this->boardMatrix.size(); j++) {
 					aux[i + 1][j + 1] = this->boardMatrix[i][j];
 				}
 			}
-
-			this->boardMatrix = aux;
 		}
 		else {
 			for (int i = 0; i < this->boardMatrix.size(); i++) {
@@ -36,12 +32,15 @@ void Board::addCard(int card, int posX, int posY)
 					aux[i][j] = this->boardMatrix[i][j];
 				}
 			}
-
-			this->boardMatrix = aux;
 		}
-	}
+		this->boardMatrix = aux;
+		this->boardMatrix[posX][posY].addCardToDeck(card);
 
-	this->boardMatrix[posX][posY].addCardToDeck(card);
+	}
+	else {
+		this->boardMatrix[posX][posY].addCardToDeck(card);
+
+	}
 }
 
 bool Board::checkIfCardIsInsideBoard(int posX, int posY)
@@ -90,7 +89,7 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		for (int i = 0; i < board.boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[0][0].getLastCard();
+				out << "|" << board.boardMatrix[i][j].getLastCard();
 			}
 			out << "| " << i + 1 << 3 << "\n";
 		}
@@ -104,7 +103,7 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		for (int i = 0; i < board.boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.boardMatrix.size(); j++) {
-				out << "|" << board.boardMatrix[0][0].getLastCard();
+				out << "|" << board.boardMatrix[i][j].getLastCard();
 			}
 			out << "| " << i + 1 << 4 << "\n";
 		}
@@ -115,7 +114,7 @@ std::ostream& operator<<(std::ostream& out, Board board)
 
 	for (int i = 0; i < board.boardMatrix.size(); i++) {
 		for (int j = 0; j < board.boardMatrix.size(); j++) {
-			out << "|" << board.boardMatrix[0][0].getLastCard();
+			out << "|" << board.boardMatrix[i][j].getLastCard();
 		}
 		out << "|" << "\n";
 	}

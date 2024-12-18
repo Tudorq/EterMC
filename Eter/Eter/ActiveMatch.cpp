@@ -38,8 +38,6 @@ int ActiveMatch::startMatch()
 			this->startTurn(this->player2);
 		}
 
-
-		break;
 	}
 
 	return 0;
