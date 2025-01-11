@@ -13,7 +13,7 @@ Board::Board(bool isTrainingBoard)
 
 
 
-void Board::addCard(int card, int posX, int posY, std::string playerName)
+bool Board::addCard(int card, int posX, int posY, std::string playerName)
 {
 	Card NewCard{ card, playerName };
 	
@@ -42,6 +42,8 @@ void Board::addCard(int card, int posX, int posY, std::string playerName)
 		m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 
 	}
+
+	return true;
 }
 
 bool Board::checkIfCardIsInsideBoard(int posX, int posY)
@@ -99,7 +101,7 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		return out;
 	}
 
-	if (board.m_boardMatrix.size() == 3 && board.m_isTrainingBoard) {
+	if (board.m_boardMatrix.size() == 3 && !board.m_isTrainingBoard) {
 		out << "00" << " " << "01" << " " << "02 " << "03" << " 04" << "\n";
 		for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";

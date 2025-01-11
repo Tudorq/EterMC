@@ -4,6 +4,7 @@ Player::Player()
 {
 	m_hasWizard = 0;
 	m_usedWizard = 0;
+
 }
 
 Player::Player(std::string name)
@@ -41,4 +42,9 @@ void Player::setDeckForGameMode(int gameMode)
 	else if (gameMode == 2) {
 		m_deck = { 1, 1, 2, 2, 2, 3, 3, 3, 4, 0 };
 	}
+}
+
+void Player::removePlacedCardFromDeck(int card)
+{
+	m_deck.erase(find(m_deck.begin(), m_deck.end(), card));
 }

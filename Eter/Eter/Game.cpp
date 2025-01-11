@@ -52,7 +52,7 @@ void Game::startGameModeTraining()
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
 	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
 		m_player1->setDeckForGameMode(1);
-		m_player2->setDeckForGameMode(2);
+		m_player2->setDeckForGameMode(1);
 
 		ActiveMatch match{m_player1, m_player2, 1};
 

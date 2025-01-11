@@ -10,6 +10,7 @@ private:
 	std::shared_ptr<Player> m_player2;
 	int m_currentPlayer;
 	bool m_isFinished;
+	bool m_isFirstTurn;
 	Board m_board;
 public:
 	ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2, int gameMode);

@@ -14,7 +14,7 @@ private:
 public:
 	Board();
 	Board(bool isTrainingBoard);
-	void addCard(int card, int posX, int posY, std::string playerName);
+	bool addCard(int card, int posX, int posY, std::string playerName);
 	bool checkIfCardIsInsideBoard(int posX, int posY);
 	bool checkIfCardCanBePlacedOnBoard(int card, int posX, int posY);
 	void removeCard(int card, int posX, int posY);
