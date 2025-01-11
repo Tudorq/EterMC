@@ -39,7 +39,14 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 
 	}
 	else {
-		m_boardMatrix[posX][posY].addCardToDeck(NewCard);
+		if (checkIfCardCanBePlacedOnBoard(NewCard.getCardValue(), posX, posY))
+		{
+			m_boardMatrix[posX][posY].addCardToDeck(NewCard);
+		}
+		else
+		{
+			return false;
+		}
 
 	}
 
@@ -59,7 +66,13 @@ bool Board::checkIfCardIsInsideBoard(int posX, int posY)
 
 bool Board::checkIfCardCanBePlacedOnBoard(int card, int posX, int posY)
 {
-	if (!checkIfCardIsInsideBoard(posX, posY)) {
+
+	if (card == 0)
+	{
+		return false;
+	}
+
+	if (m_boardMatrix[posX][posY].getLastCard().getCardValue() < card) {
 		return true;
 	}
 

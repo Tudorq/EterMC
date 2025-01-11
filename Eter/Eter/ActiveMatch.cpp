@@ -17,10 +17,6 @@ int ActiveMatch::startMatch()
 	int x, y;
 	std::cout << "Meciul a inceput \n";
 
-
-
-
-
 	while (!m_isFinished) {
 		std::cout << m_board;
 		if (m_currentPlayer == 1) {
@@ -36,7 +32,7 @@ int ActiveMatch::startMatch()
 	return 0;
 }
 
-void ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
+bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 {
 
 	int cardPicked;
@@ -59,12 +55,12 @@ void ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 	{
 		std::cout << "Alege pozitia(x,y): ";
 		std::cin >> x >> y;
-		m_isFirstTurn = false;
 	}
 	else
 	{
 		x = 0;
 		y = 0;
+		m_isFirstTurn = false;
 	}
 
 	cardWasPlaced = m_board.addCard(cardPicked, x, y, currentPlayer->getName());
@@ -82,6 +78,11 @@ void ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 		default:
 			break;
 		}
+	}
+	else
+	{
+		std::cout << "Cartea nu poate fi pusa, incearca din nou.";
+		return false;
 	}
 
 	if (m_currentPlayer == 1)
