@@ -20,14 +20,34 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 	if (!checkIfCardIsInsideBoard(posX, posY)) {
 		std::vector<std::vector<PlacedDeck>> aux(m_boardMatrix.size() + 1, std::vector<PlacedDeck>(m_boardMatrix.size() + 1, PlacedDeck(Card(-1, ""), 0, 0)));
 		
-		if (posX == 0 || posY == 0) {
+		if (posX == 0 && posY == 0) {
 			for (int i = 0; i < m_boardMatrix.size(); i++) {
 				for (int j = 0; j < m_boardMatrix.size(); j++) {
 					aux[i + 1][j + 1] = m_boardMatrix[i][j];
 				}
 			}
 		}
+		else if (posX == 0)
+		{
+			posY--;
+			for (int i = 0; i < m_boardMatrix.size(); i++) {
+				for (int j = 0; j < m_boardMatrix.size(); j++) {
+					aux[i + 1][j] = m_boardMatrix[i][j];
+				}
+			}
+		}
+		else if (posY == 0)
+		{
+			posX--;
+			for (int i = 0; i < m_boardMatrix.size(); i++) {
+				for (int j = 0; j < m_boardMatrix.size(); j++) {
+					aux[i][j + 1] = m_boardMatrix[i][j];
+				}
+			}
+		}
 		else {
+			posX--;
+			posY--;
 			for (int i = 0; i < m_boardMatrix.size(); i++) {
 				for (int j = 0; j < m_boardMatrix.size(); j++) {
 					aux[i][j] = m_boardMatrix[i][j];
@@ -39,6 +59,7 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 
 	}
 	else {
+
 		if (checkIfCardCanBePlacedOnBoard(NewCard.getCardValue(), posX, posY))
 		{
 			m_boardMatrix[posX][posY].addCardToDeck(NewCard);
@@ -53,12 +74,20 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 	return true;
 }
 
-bool Board::checkIfCardIsInsideBoard(int posX, int posY)
+bool Board::checkIfCardIsInsideBoard(int & posX, int & posY)
 {
 	if ((!m_isTrainingBoard && m_boardMatrix.size() < 4) || (m_isTrainingBoard && m_boardMatrix.size() < 3)) {
-		if (posX == 0 || posX > m_boardMatrix.size() || posY == 0 || posY > m_boardMatrix.size()) {
+		if (posX == 0 || posY == 0) {
 			return false;
 		}
+		else if (posX > m_boardMatrix.size() || posY > m_boardMatrix.size())
+		{
+			return false;
+		}
+
+		posX--;
+		posY--;
+		
 	}
 
 	return true;
