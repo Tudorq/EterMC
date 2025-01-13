@@ -2,10 +2,42 @@
 
 Wizard::Wizard()
 {
-	m_type = -1;
+	m_pickedPower = FIRE1;
 }
 
 Wizard::Wizard(int type)
 {
-	m_type = type;
+	m_pickedPower = Power(type);
+}
+
+void Wizard::removeCard()
+{
+}
+
+void Wizard::removeRow()
+{
+}
+
+void Wizard::coverCardWithSmallerNumber()
+{
+}
+
+void Wizard::createHole()
+{
+}
+
+void Wizard::moveOwnBoardDeck()
+{
+}
+
+void Wizard::getExtraEter()
+{
+}
+
+void Wizard::moveOtherBoardDeck()
+{
+}
+
+void Wizard::moveEdgeRow()
+{
 }

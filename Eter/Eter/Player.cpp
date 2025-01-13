@@ -24,6 +24,20 @@ std::string Player::getName()
 	return m_name;
 }
 
+void Player::setWizard()
+{
+	int numberPicked;
+
+	srand(time(0));
+
+	numberPicked = rand();
+}
+
+Wizard Player::getWizard()
+{
+	return Wizard();
+}
+
 void Player::setDeck(std::vector<int> deck)
 {
 	m_deck = deck;

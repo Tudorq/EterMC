@@ -2,6 +2,7 @@
 #include <string>
 #include "Wizard.h"
 #include <vector>
+#include <ctime>
 class Player
 {
 
@@ -17,7 +18,7 @@ public:
 	Player(std::string name);
 	void setName(std::string name);
 	std::string getName();
-	void setWizard(Wizard wizard);
+	void setWizard();
 	Wizard getWizard();
 	void setDeck(std::vector<int> deck);
 	std::vector<int> getDeck();
