@@ -9,6 +9,7 @@ ActiveMatch::ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player
 	m_currentPlayer = 1;
 	m_isFinished = false;
 	m_board = Board(gameMode);
+	m_playerWhoWon = "";
 }
 
 int ActiveMatch::startMatch()
@@ -77,6 +78,13 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 			break;
 		default:
 			break;
+		}
+
+		if (m_board.checkWinningConditions(m_player1, m_player2))
+		{
+
+			m_playerWhoWon = m_board.getWonBy()->getName();
+		
 		}
 	}
 	else

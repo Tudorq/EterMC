@@ -11,17 +11,20 @@ private:
 	std::vector<std::vector<PlacedDeck>> m_boardMatrix;
 	bool m_isTrainingBoard;
 	Card m_lastAddedCard;
+	std::shared_ptr<Player> m_wonBy;
 
 public:
 	Board();
 	Board(bool isTrainingBoard);
+	std::shared_ptr<Player> getWonBy();
 	bool addCard(int card, int posX, int posY, std::string playerName);
 	bool checkIfCardIsInsideBoard(int & posX, int & posY);
 	bool checkIfCardCanBePlacedOnBoard(int card, int posX, int posY);
 	void removeCard(int card, int posX, int posY);
 	std::vector<std::vector<PlacedDeck>> getBoard();
-	bool checkWinningConditions();
-	bool checkLinesForWinningConditions();
+	void calculatePoints(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2);
+	bool checkWinningConditions(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2);
+	bool checkLinesForWinningConditions(std::string & firstUserName);
 	friend std::ostream& operator << (std::ostream& out, const Board board);
 };
 

@@ -9,7 +9,13 @@ Board::Board(bool isTrainingBoard)
 {
 	m_isTrainingBoard = isTrainingBoard;
 	m_boardMatrix = {};
-};
+	m_wonBy = nullptr;
+}
+std::shared_ptr<Player> Board::getWonBy()
+{
+	return m_wonBy;
+}
+;
 
 
 
@@ -119,13 +125,51 @@ std::vector<std::vector<PlacedDeck>> Board::getBoard()
 	return m_boardMatrix;
 }
 
-bool Board::checkWinningConditions(Player player1, Player player2)
+void Board::calculatePoints(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2)
+{
+	int playerPoints1 = 0, playerPoints2 = 0;
+
+	for (int i = 0; i < m_boardMatrix.size(); i++)
+	{
+		for (int j = 0; j < m_boardMatrix.size(); j++)
+		{
+			if (m_boardMatrix[i][j].getLastCard().getPlayerName() == player1->getName())
+			{
+				playerPoints1 += m_boardMatrix[i][j].getLastCard().getCardValue();
+			}
+			else
+			{
+				playerPoints2 += m_boardMatrix[i][j].getLastCard().getCardValue();
+			}
+		}
+	}
+
+	if (playerPoints1 > playerPoints2)
+	{
+		m_wonBy = player1;
+	}
+	else if (playerPoints2 > playerPoints1)
+	{
+		m_wonBy = player2;
+	}
+}
+
+bool Board::checkWinningConditions(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2)
 {
 
 	bool isWinningCondition = true;
+	std::string firstUserName;
 
-	if (checkLinesForWinningConditions)
+	if (checkLinesForWinningConditions(firstUserName))
 	{
+		if (firstUserName == player1->getName())
+		{
+			m_wonBy = player1;
+		}
+		else {
+			m_wonBy = player2;
+		}
+
 		return true;
 	}
 
@@ -140,24 +184,25 @@ bool Board::checkWinningConditions(Player player1, Player player2)
 		}
 		if (isWinningCondition)
 		{
+			calculatePoints(player1, player2);
 			return true;
 		}
 	}
 
-	if (player1.checkIfDeckIsEmpty() || player2.checkIfDeckIsEmpty())
+	if (player1->checkIfDeckIsEmpty() || player2->checkIfDeckIsEmpty())
 	{
+		calculatePoints(player1, player2);
 		return true;
 	}
+
 
 	
 }
 
-bool Board::checkLinesForWinningConditions()
+bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 {
 	int boardLength = m_boardMatrix.size();
 	bool isWinningCondition = true;
-	std::string firstUserName;
-
 	for (int i = 0; i < boardLength; i++)
 	{
 		firstUserName = m_boardMatrix[i][0].getLastCard().getPlayerName();

@@ -9,6 +9,7 @@ private:
 	std::string m_playerName;
 
 public:
+	Card();
 	Card(int card, std::string playerName);
 	int getCardValue();
 	std::string getPlayerName();

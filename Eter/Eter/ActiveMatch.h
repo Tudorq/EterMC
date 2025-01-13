@@ -10,6 +10,7 @@ private:
 	std::shared_ptr<Player> m_player2;
 	int m_currentPlayer;
 	bool m_isFinished;
+	std::string m_playerWhoWon;
 	bool m_isFirstTurn;
 	Board m_board;
 public:
