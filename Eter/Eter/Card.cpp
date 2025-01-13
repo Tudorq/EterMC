@@ -10,3 +10,8 @@ int Card::getCardValue()
 {
 	return m_cardValue;
 }
+
+std::string Card::getPlayerName()
+{
+	return m_playerName;
+}

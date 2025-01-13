@@ -44,6 +44,15 @@ void Player::setDeckForGameMode(int gameMode)
 	}
 }
 
+bool Player::checkIfDeckIsEmpty()
+{
+	if (m_deck.size() == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
 void Player::removePlacedCardFromDeck(int card)
 {
 	m_deck.erase(find(m_deck.begin(), m_deck.end(), card));

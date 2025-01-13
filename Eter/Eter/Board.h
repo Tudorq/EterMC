@@ -10,6 +10,7 @@ class Board
 private:
 	std::vector<std::vector<PlacedDeck>> m_boardMatrix;
 	bool m_isTrainingBoard;
+	Card m_lastAddedCard;
 
 public:
 	Board();
@@ -19,6 +20,8 @@ public:
 	bool checkIfCardCanBePlacedOnBoard(int card, int posX, int posY);
 	void removeCard(int card, int posX, int posY);
 	std::vector<std::vector<PlacedDeck>> getBoard();
+	bool checkWinningConditions();
+	bool checkLinesForWinningConditions();
 	friend std::ostream& operator << (std::ostream& out, const Board board);
 };
 

@@ -56,13 +56,15 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 		}
 		m_boardMatrix = aux;
 		m_boardMatrix[posX][posY].addCardToDeck(NewCard);
-
+		m_lastAddedCard = NewCard;
+		
 	}
 	else {
 
 		if (checkIfCardCanBePlacedOnBoard(NewCard.getCardValue(), posX, posY))
 		{
 			m_boardMatrix[posX][posY].addCardToDeck(NewCard);
+			m_lastAddedCard = NewCard;
 		}
 		else
 		{
@@ -96,9 +98,9 @@ bool Board::checkIfCardIsInsideBoard(int & posX, int & posY)
 bool Board::checkIfCardCanBePlacedOnBoard(int card, int posX, int posY)
 {
 
-	if (card == 0)
+	if (card == 0 && m_boardMatrix[posX][posY].getLastCard().getCardValue() == -1)
 	{
-		return false;
+		return true;
 	}
 
 	if (m_boardMatrix[posX][posY].getLastCard().getCardValue() < card) {
@@ -115,6 +117,111 @@ void Board::removeCard(int card, int posX, int posY)
 std::vector<std::vector<PlacedDeck>> Board::getBoard()
 {
 	return m_boardMatrix;
+}
+
+bool Board::checkWinningConditions(Player player1, Player player2)
+{
+
+	bool isWinningCondition = true;
+
+	if (checkLinesForWinningConditions)
+	{
+		return true;
+	}
+
+	for (int i = 0; i < m_boardMatrix.size(); i++)
+	{
+		for (int j = 0; j < m_boardMatrix.size(); j++)
+		{
+			if (m_boardMatrix[i][j].getLastCard().getCardValue() == -1)
+			{
+				isWinningCondition = false;
+			}
+		}
+		if (isWinningCondition)
+		{
+			return true;
+		}
+	}
+
+	if (player1.checkIfDeckIsEmpty() || player2.checkIfDeckIsEmpty())
+	{
+		return true;
+	}
+
+	
+}
+
+bool Board::checkLinesForWinningConditions()
+{
+	int boardLength = m_boardMatrix.size();
+	bool isWinningCondition = true;
+	std::string firstUserName;
+
+	for (int i = 0; i < boardLength; i++)
+	{
+		firstUserName = m_boardMatrix[i][0].getLastCard().getPlayerName();
+		for (int j = 1; j < boardLength; j++)
+		{
+			if (m_boardMatrix[i][j].getLastCard().getPlayerName() != firstUserName)
+			{
+				isWinningCondition = false;
+			}
+		}
+
+		if (isWinningCondition)
+		{
+			return true;
+		}
+	}
+
+	for (int i = 0; i < boardLength; i++)
+	{
+		firstUserName = m_boardMatrix[0][i].getLastCard().getPlayerName();
+		for (int j = 1; j < boardLength; j++)
+		{
+			if (m_boardMatrix[j][i].getLastCard().getPlayerName() != firstUserName)
+			{
+				isWinningCondition = false;
+			}
+		}
+
+		if (isWinningCondition)
+		{
+			return true;
+		}
+	}
+
+	for (int i = 0; i < boardLength; i++)
+	{
+		firstUserName = m_boardMatrix[0][0].getLastCard().getPlayerName();
+		for (int j = 0; j < boardLength; j++)
+		{
+			if (i == j && m_boardMatrix[i][j].getLastCard().getPlayerName() != firstUserName)
+			{
+				isWinningCondition = false;
+			}
+		}
+		if (isWinningCondition)
+		{
+			return true;
+		}
+	}
+
+	for (int i = 0; i < boardLength; i++)
+	{
+		for (int j = 0; j < boardLength; j++)
+		{
+			if (i + j == boardLength - 1 && m_boardMatrix[i][j].getLastCard().getPlayerName() != firstUserName)
+			{
+				isWinningCondition = false;
+			}
+		}
+		if (isWinningCondition)
+		{
+			return true;
+		}
+	}
 }
 
 std::ostream& operator<<(std::ostream& out, Board board)

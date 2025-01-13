@@ -11,6 +11,7 @@ private:
 public:
 	Card(int card, std::string playerName);
 	int getCardValue();
+	std::string getPlayerName();
 
 };
 
