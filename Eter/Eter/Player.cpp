@@ -31,6 +31,8 @@ void Player::setWizard()
 	srand(time(0));
 
 	numberPicked = rand();
+
+
 }
 
 Wizard Player::getWizard()

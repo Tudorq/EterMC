@@ -1,5 +1,9 @@
 #include "Card.h"
 
+Card::Card()
+{
+}
+
 Card::Card(int card, std::string playerName)
 {
 	this->m_cardValue = card;

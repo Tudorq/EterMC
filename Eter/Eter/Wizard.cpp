@@ -10,6 +10,10 @@ Wizard::Wizard(int type)
 	m_pickedPower = Power(type);
 }
 
+void Wizard::usePower()
+{
+}
+
 void Wizard::removeCard()
 {
 }
