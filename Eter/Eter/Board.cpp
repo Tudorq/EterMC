@@ -136,10 +136,18 @@ void Board::calculatePoints(std::shared_ptr<Player> player1, std::shared_ptr<Pla
 			if (m_boardMatrix[i][j].getLastCard().getPlayerName() == player1->getName())
 			{
 				playerPoints1 += m_boardMatrix[i][j].getLastCard().getCardValue();
+				if (m_boardMatrix[i][j].getLastCard().getCardValue() == 0)
+				{
+					playerPoints1++;
+				}
 			}
 			else
 			{
 				playerPoints2 += m_boardMatrix[i][j].getLastCard().getCardValue();
+				if (m_boardMatrix[i][j].getLastCard().getCardValue() == 0)
+				{
+					playerPoints1++;
+				}
 			}
 		}
 	}
@@ -152,6 +160,8 @@ void Board::calculatePoints(std::shared_ptr<Player> player1, std::shared_ptr<Pla
 	{
 		m_wonBy = player2;
 	}
+
+
 }
 
 bool Board::checkWinningConditions(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2)
@@ -184,14 +194,12 @@ bool Board::checkWinningConditions(std::shared_ptr<Player> player1, std::shared_
 		}
 		if (isWinningCondition)
 		{
-			calculatePoints(player1, player2);
 			return true;
 		}
 	}
 
 	if (player1->checkIfDeckIsEmpty() || player2->checkIfDeckIsEmpty())
 	{
-		calculatePoints(player1, player2);
 		return true;
 	}
 

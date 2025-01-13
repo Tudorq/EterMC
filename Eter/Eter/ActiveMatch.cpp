@@ -8,7 +8,10 @@ ActiveMatch::ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player
 	m_player2 = player2;
 	m_currentPlayer = 1;
 	m_isFinished = false;
+	m_isDraw = false;
 	m_board = Board(gameMode);
+	m_isLastTurn = false;
+	m_playedLastTurn = false;
 	m_playerWhoWon = "";
 }
 
@@ -83,7 +86,26 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 		if (m_board.checkWinningConditions(m_player1, m_player2))
 		{
 
-			m_playerWhoWon = m_board.getWonBy()->getName();
+			if (m_board.getWonBy() != nullptr)
+			{
+				m_playerWhoWon = m_board.getWonBy()->getName();
+			}
+			else if(m_board.getWonBy() == nullptr && m_playedLastTurn)
+			{
+				m_board.calculatePoints(m_player1, m_player2);
+				if (m_board.getWonBy() == nullptr)
+				{
+					m_isDraw = true;
+				}
+				else
+				{
+					m_playerWhoWon = m_board.getWonBy()->getName();
+				}
+			}
+			else
+			{
+				m_isLastTurn = true;
+			}
 		
 		}
 	}
@@ -101,4 +123,19 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 	{
 		m_currentPlayer = 1;
 	}
+
+	if (m_isLastTurn)
+	{
+		m_playedLastTurn = true;
+	}
+}
+
+bool ActiveMatch::checkIfMatchIsDraw()
+{
+	return m_isDraw;
+}
+
+std::string ActiveMatch::playerWhoWon()
+{
+	return m_playerWhoWon;
 }

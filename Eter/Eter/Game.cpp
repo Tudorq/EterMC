@@ -57,14 +57,29 @@ void Game::startGameModeTraining()
 		ActiveMatch match{m_player1, m_player2, 1};
 
 		match.startMatch();
-		break;
 
-
-
+		if (!match.checkIfMatchIsDraw())
+		{
+			if (m_player1->getName() == match.playerWhoWon())
+			{
+				roundsWonByPlayer1++;
+			}
+			else
+			{
+				roundsWonByPlayer2++;
+			}
+		}
 
 	}
 
-
+	if (roundsWonByPlayer1 > roundsWonByPlayer2)
+	{
+		m_playerScore1++;
+	}
+	else
+	{
+		m_playerScore2++;
+	}
 
 }
 
