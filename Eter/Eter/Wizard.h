@@ -19,10 +19,10 @@ public:
 
 	Wizard();
 	Wizard(int type);
-	void usePower();
-	void removeCard();
-	void removeRow();
-	void coverCardWithSmallerNumber();
+	void usePower(int posX = -1, int posY = -1, int row = -1, int card, std::string playerName);
+	void removeCard(int posX, int posY);
+	void removeRow(int row);
+	void coverCardWithSmallerNumber(int posX, int posY, int card, std::string playerName);
 	void createHole();
 	void moveOwnBoardDeck();
 	void getExtraEter();

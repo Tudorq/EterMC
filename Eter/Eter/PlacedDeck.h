@@ -14,6 +14,7 @@ public:
 	PlacedDeck();
 	PlacedDeck(Card initialCard, int posX, int posY);
 	void addCardToDeck(Card card);
+	void removeLastCardFromDeck();
 	Card getLastCard();
 	PlacedDeck& operator=(const PlacedDeck& node);
 };

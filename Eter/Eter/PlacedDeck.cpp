@@ -19,6 +19,11 @@ void PlacedDeck::addCardToDeck(Card card)
 	m_placedCards.push_back(card);
 }
 
+void PlacedDeck::removeLastCardFromDeck()
+{
+	m_placedCards.pop_back();
+}
+
 Card PlacedDeck::getLastCard()
 {
 	return m_placedCards.back();

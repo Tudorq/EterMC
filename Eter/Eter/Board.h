@@ -8,12 +8,12 @@
 class Board
 {
 private:
-	std::vector<std::vector<PlacedDeck>> m_boardMatrix;
 	bool m_isTrainingBoard;
 	Card m_lastAddedCard;
 	std::shared_ptr<Player> m_wonBy;
 
 public:
+	std::vector<std::vector<PlacedDeck>> m_boardMatrix;
 	Board();
 	Board(bool isTrainingBoard);
 	std::shared_ptr<Player> getWonBy();
