@@ -50,6 +50,11 @@ std::vector<int> Player::getDeck()
 	return m_deck;
 }
 
+void Player::addCardToDeck(int card)
+{
+	m_deck.push_back(card);
+}
+
 void Player::setDeckForGameMode(int gameMode)
 {
 	if (gameMode == 1) {

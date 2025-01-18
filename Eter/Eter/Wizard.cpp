@@ -10,20 +10,21 @@ Wizard::Wizard(int type)
 	m_pickedPower = Power(type);
 }
 
-void Wizard::usePower(int posX = -1, int posY = -1, int row = -1, int card, std::string playerName = "")
+void Wizard::usePower(int posX1 = -1, int posY1 = -1, int posX2 = -1, int posY2 = -1, int row = -1, int card, std::string playerName = "", bool isRow = 0, bool position = 0)
 {
 	switch (m_pickedPower)
 	{
 	case Wizard::FIRE1:
-		removeCard(posX, posY);
+		removeCard(posX1, posY1);
 		break;
 	case Wizard::FIRE2:
 		removeRow(row);
 		break;
 	case Wizard::EARTH1:
-		coverCardWithSmallerNumber(posX, posY, card, playerName);
+		coverCardWithSmallerNumber(posX1, posY1, card, playerName);
 		break;
 	case Wizard::EARTH2:
+		createHole(posX1, posY1);
 		break;
 	case Wizard::AIR1:
 		break;
@@ -58,22 +59,86 @@ void Wizard::coverCardWithSmallerNumber(int posX, int posY, int card, std::strin
 	m_board->m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 }
 
-void Wizard::createHole()
+void Wizard::createHole(int posX, int posY)
 {
+	m_board->m_secondaryMatrix[posX][posY] = -2;
 }
 
-void Wizard::moveOwnBoardDeck()
+void Wizard::moveOwnBoardDeck(int posX1, int posY1, int posX2, int posY2)
 {
+	m_board->m_boardMatrix[posX2][posY2] = m_board->m_boardMatrix[posX1][posY1];
+	m_board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
 }
 
 void Wizard::getExtraEter()
 {
+	m_player->addCardToDeck(0);
 }
 
-void Wizard::moveOtherBoardDeck()
+void Wizard::moveOtherBoardDeck(int posX1, int posY1, int posX2, int posY2)
 {
+	m_board->m_boardMatrix[posX2][posY2] = m_board->m_boardMatrix[posX1][posY1];
+	m_board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
 }
 
-void Wizard::moveEdgeRow()
+void Wizard::moveEdgeRow(bool isRow, bool isPosition)
 {
+	std::vector<std::vector<PlacedDeck>> aux(m_board->m_boardMatrix.size(), std::vector<PlacedDeck>(m_board->m_boardMatrix.size(), PlacedDeck(Card(-1, ""), 0, 0)));
+
+	for (int i = 0; i < m_board->m_boardMatrix.size(); i++)
+	{
+		for (int j = 0; j < m_board->m_boardMatrix.size(); j++)
+		{
+			if (isRow)
+			{
+				if (isPosition)
+				{
+					if (i == 0)
+					{
+						aux[m_board->m_boardMatrix.size() - 1][j] = m_board->m_boardMatrix[i][j];
+					} 
+					else {
+						aux[i - 1][j] = m_board->m_boardMatrix[i][j];
+					}
+				}
+				else
+				{
+					if (i == m_board->m_boardMatrix.size() - 1)
+					{
+						aux[0][j] = m_board->m_boardMatrix[i][j];
+					}
+					else {
+						aux[i + 1][j] = m_board->m_boardMatrix[i][j];
+					}
+
+				}
+			}
+			else
+			{
+				if (isPosition)
+				{
+					if (j == 0)
+					{
+						aux[j][m_board->m_boardMatrix.size() - 1] = m_board->m_boardMatrix[j][i];
+					}
+					else {
+						aux[j - 1][i] = m_board->m_boardMatrix[j][i];
+					}
+				}
+				else
+				{
+					if (j == m_board->m_boardMatrix.size() - 1)
+					{
+						aux[j][0] = m_board->m_boardMatrix[j][i];
+					}
+					else {
+						aux[j + 1][i] = m_board->m_boardMatrix[j][i];
+					}
+
+				}
+			}
+		}
+	}
+
+	
 }

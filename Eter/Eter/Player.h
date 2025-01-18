@@ -22,6 +22,7 @@ public:
 	Wizard getWizard();
 	void setDeck(std::vector<int> deck);
 	std::vector<int> getDeck();
+	void addCardToDeck(int card);
 	void setDeckForGameMode(int gameMode);
 	bool checkIfDeckIsEmpty();
 	void removePlacedCardFromDeck(int card);

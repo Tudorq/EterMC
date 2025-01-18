@@ -14,6 +14,7 @@ private:
 
 public:
 	std::vector<std::vector<PlacedDeck>> m_boardMatrix;
+	std::vector<std::vector<int>> m_secondaryMatrix;
 	Board();
 	Board(bool isTrainingBoard);
 	std::shared_ptr<Player> getWonBy();

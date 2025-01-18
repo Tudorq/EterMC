@@ -9,6 +9,7 @@ Board::Board(bool isTrainingBoard)
 {
 	m_isTrainingBoard = isTrainingBoard;
 	m_boardMatrix = {};
+
 	m_wonBy = nullptr;
 }
 std::shared_ptr<Player> Board::getWonBy()
