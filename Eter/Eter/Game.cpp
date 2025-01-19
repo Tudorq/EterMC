@@ -104,6 +104,10 @@ void Game::startGameModeTraining()
 void Game::startGameModeWizard()
 {
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
+	
+	m_player1->setWizard();
+	m_player2->setWizard();
+
 	while (roundsWonByPlayer1 != 3 && roundsWonByPlayer2 != 3) {
 		m_player1->setDeckForGameMode(2);
 		m_player2->setDeckForGameMode(2);

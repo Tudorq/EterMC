@@ -132,6 +132,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Eter.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionEffects.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="PlacedDeck.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosionEffects.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="PlacedDeck.h" />
     <ClInclude Include="Player.h" />

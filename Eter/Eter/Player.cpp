@@ -32,15 +32,24 @@ void Player::setWizard()
 
 	srand(time(0));
 
-	numberPicked = rand();
+	numberPicked = rand()%8;
+
+	m_pickedPowerId = numberPicked;
+	m_pickedPower = Powers[numberPicked];
 
 
 }
 
-//Wizard Player::getWizard()
-//{
-//	return m_wizard;
-//}
+std::string Player::getWizardName()
+{
+	return m_pickedPower;
+}
+
+int Player::getWizardId()
+{
+	return m_pickedPowerId;
+}
+
 
 void Player::setDeck(std::vector<int> deck)
 {
@@ -92,35 +101,35 @@ void Player::removePlacedCardFromDeck(int card)
 }
 
 
-void Player::removeCard(std::shared_ptr<Board> board, int posX, int posY)
+void Player::removeCard(Board& board, int posX, int posY)
 {
-	board->m_boardMatrix[posX][posY].removeLastCardFromDeck();
+	board.m_boardMatrix[posX][posY].removeLastCardFromDeck();
 }
 
-void Player::removeRow(std::shared_ptr<Board> board, int row)
+void Player::removeRow(Board& board, int row)
 {
-	for (int i = 0; i < board->m_boardMatrix.size(); i++)
+	for (int i = 0; i < board.m_boardMatrix.size(); i++)
 	{
-		board->m_boardMatrix[row][i] = PlacedDeck(Card(-1, "", 0), 0, 0);
+		board.m_boardMatrix[row][i] = PlacedDeck(Card(-1, "", 0), 0, 0);
 	}
 }
 
-void Player::coverCardWithSmallerNumber(std::shared_ptr<Board> board, int posX, int posY, int card, std::string playerName)
+void Player::coverCardWithSmallerNumber(Board& board, int posX, int posY, int card, std::string playerName)
 {
 	Card NewCard{ card, playerName, 0};
 
-	board->m_boardMatrix[posX][posY].addCardToDeck(NewCard);
+	board.m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 }
 
-void Player::createHole(std::shared_ptr<Board> board, int posX, int posY)
+void Player::createHole(Board& board, int posX, int posY)
 {
-	board->m_secondaryMatrix[posX][posY] = -2;
+	board.m_secondaryMatrix[posX][posY] = -2;
 }
 
-void Player::moveOwnBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
+void Player::moveOwnBoardDeck(Board& board, int posX1, int posY1, int posX2, int posY2)
 {
-	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
-	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
+	board.m_boardMatrix[posX2][posY2] = board.m_boardMatrix[posX1][posY1];
+	board.m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
 }
 
 void Player::getExtraEter()
@@ -128,19 +137,19 @@ void Player::getExtraEter()
 	addCardToDeck(0);
 }
 
-void Player::moveOtherBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
+void Player::moveOtherBoardDeck(Board& board, int posX1, int posY1, int posX2, int posY2)
 {
-	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
-	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
+	board.m_boardMatrix[posX2][posY2] = board.m_boardMatrix[posX1][posY1];
+	board.m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
 }
 
-void Player::moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool isPosition)
+void Player::moveEdgeRow(Board& board, bool isRow, bool isPosition)
 {
-	std::vector<std::vector<PlacedDeck>> aux(board->m_boardMatrix.size(), std::vector<PlacedDeck>(board->m_boardMatrix.size(), PlacedDeck(Card(-1, ".", 0), 0, 0)));
+	std::vector<std::vector<PlacedDeck>> aux(board.m_boardMatrix.size(), std::vector<PlacedDeck>(board.m_boardMatrix.size(), PlacedDeck(Card(-1, ".", 0), 0, 0)));
 
-	for (int i = 0; i < board->m_boardMatrix.size(); i++)
+	for (int i = 0; i < board.m_boardMatrix.size(); i++)
 	{
-		for (int j = 0; j < board->m_boardMatrix.size(); j++)
+		for (int j = 0; j < board.m_boardMatrix.size(); j++)
 		{
 			if (isRow)
 			{
@@ -148,20 +157,20 @@ void Player::moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool isPositi
 				{
 					if (i == 0)
 					{
-						aux[board->m_boardMatrix.size() - 1][j] = board->m_boardMatrix[i][j];
+						aux[board.m_boardMatrix.size() - 1][j] = board.m_boardMatrix[i][j];
 					}
 					else {
-						aux[i - 1][j] = board->m_boardMatrix[i][j];
+						aux[i - 1][j] = board.m_boardMatrix[i][j];
 					}
 				}
 				else
 				{
-					if (i == board->m_boardMatrix.size() - 1)
+					if (i == board.m_boardMatrix.size() - 1)
 					{
-						aux[0][j] = board->m_boardMatrix[i][j];
+						aux[0][j] = board.m_boardMatrix[i][j];
 					}
 					else {
-						aux[i + 1][j] = board->m_boardMatrix[i][j];
+						aux[i + 1][j] = board.m_boardMatrix[i][j];
 					}
 				}
 			}
@@ -171,20 +180,20 @@ void Player::moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool isPositi
 				{
 					if (j == 0)
 					{
-						aux[j][board->m_boardMatrix.size() - 1] = board->m_boardMatrix[j][i];
+						aux[j][board.m_boardMatrix.size() - 1] = board.m_boardMatrix[j][i];
 					}
 					else {
-						aux[j - 1][i] = board->m_boardMatrix[j][i];
+						aux[j - 1][i] = board.m_boardMatrix[j][i];
 					}
 				}
 				else
 				{
-					if (j == board->m_boardMatrix.size() - 1)
+					if (j == board.m_boardMatrix.size() - 1)
 					{
-						aux[j][0] = board->m_boardMatrix[j][i];
+						aux[j][0] = board.m_boardMatrix[j][i];
 					}
 					else {
-						aux[j + 1][i] = board->m_boardMatrix[j][i];
+						aux[j + 1][i] = board.m_boardMatrix[j][i];
 					}
 				}
 			}

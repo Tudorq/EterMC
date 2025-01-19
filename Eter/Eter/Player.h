@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <vector>
+#include <string>
 #include <memory>
 
 class Board;
@@ -9,23 +11,15 @@ class Board;
 class Player
 {
 public:
-	enum Power
-	{
-		FIRE1,
-		FIRE2,
-		EARTH1,
-		EARTH2,
-		AIR1,
-		AIR2,
-		WATER1,
-		WATER2,
-	};
+	std::vector<std::string> Powers = { "fire 1", "fire 2", "earth 1", "earth 2", "air 1", "air 2", "water 1", "water 2" };
 
 	Player();
 	Player(std::string name);
 	void setName(std::string name);
 	std::string getName();
 	void setWizard();
+	std::string getWizardName();
+	int getWizardId();
 	void setDeck(std::vector<int> deck);
 	std::vector<int> getDeck();
 	void addCardToDeck(int card);
@@ -34,14 +28,14 @@ public:
 	bool checkIfUsedIllusion();
 	void useIllusion();
 	void removePlacedCardFromDeck(int card);
-	void removeCard(std::shared_ptr<Board> board, int posX, int posY);
-	void removeRow(std::shared_ptr<Board> board,  int row);
-	void coverCardWithSmallerNumber(std::shared_ptr<Board> board, int posX, int posY, int card, std::string playerName);
-	void createHole(std::shared_ptr<Board> board, int posX, int posY);
-	void moveOwnBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2);
+	void removeCard(Board& board, int posX, int posY);
+	void removeRow(Board& board,  int row);
+	void coverCardWithSmallerNumber(Board& board, int posX, int posY, int card, std::string playerName);
+	void createHole(Board& board, int posX, int posY);
+	void moveOwnBoardDeck(Board& board, int posX1, int posY1, int posX2, int posY2);
 	void getExtraEter();
-	void moveOtherBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2);
-	void moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool position);
+	void moveOtherBoardDeck(Board& board, int posX1, int posY1, int posX2, int posY2);
+	void moveEdgeRow(Board& board, bool isRow, bool position);
 
 private:
 	std::string m_name;
@@ -49,7 +43,8 @@ private:
 	bool m_hasWizard;
 	bool m_usedWizard;
 	bool m_usedIllusion;
-	Power m_pickedPower;
+	int m_pickedPowerId;
+	std::string m_pickedPower;
 
 };
 
