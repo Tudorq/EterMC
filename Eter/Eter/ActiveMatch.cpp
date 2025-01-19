@@ -41,9 +41,10 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 {
 
 	int cardPicked;
+	bool usingIllusion = false;
 	int choice;
 	int x, y;
-	bool cardWasPlaced;
+	int cardStatus;
 
 	std::cout << "Tura actuala: " << currentPlayer->getName() << "\n";
 	std::cout << "Carti disponibile: ";
@@ -55,12 +56,12 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 
 	if (!m_gameMode && !currentPlayer->checkIfUsedIllusion())
 	{
-		std::cout << "Aveti o iluzie disponibila \n Folositi iluzia? 1. Da \n 2. nu \n";
+		std::cout << "Aveti o iluzie disponibila \n Folositi iluzia? \n 1. Da \n 2. nu \n";
 		std::cin >> choice;
 
 		if (choice == 1)
 		{
-
+			usingIllusion = true;
 		}
 	}
 
@@ -80,17 +81,26 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 		m_isFirstTurn = false;
 	}
 
-	cardWasPlaced = m_board.addCard(cardPicked, x, y, currentPlayer->getName());
 
-	if (cardWasPlaced)
+	cardStatus = m_board.addCard(cardPicked, x, y, currentPlayer->getName(), usingIllusion);
+
+	if (cardStatus == 1)
 	{
 		switch (m_currentPlayer)
 		{
 		case 1:
 			m_player1->removePlacedCardFromDeck(cardPicked);
+			if (usingIllusion)
+			{
+				m_player1->useIllusion();
+			}
 			break;
 		case 2:
 			m_player2->removePlacedCardFromDeck(cardPicked);
+			if (usingIllusion)
+			{
+				m_player2->useIllusion();
+			}
 			break;
 		default:
 			break;
@@ -123,9 +133,37 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 		
 		}
 	}
-	else
+	else if (cardStatus == 0)
 	{
 		std::cout << "Cartea nu poate fi pusa, incearca din nou.";
+		return false;
+	}
+	else if(cardStatus == 2)
+	{
+		std::cout << "Valoarea iluziei este mai mare sau egala, v-ati pierdut cartea";
+		switch (m_currentPlayer)
+		{
+		case 1:
+			m_player1->removePlacedCardFromDeck(cardPicked);
+			if (usingIllusion)
+			{
+				m_player1->useIllusion();
+			}
+			break;
+		case 2:
+			m_player2->removePlacedCardFromDeck(cardPicked);
+			if (usingIllusion)
+			{
+				m_player2->useIllusion();
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		std::cout << "Nu poti plasa o carte pe propria iluzie";
 		return false;
 	}
 

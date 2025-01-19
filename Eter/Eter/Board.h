@@ -21,7 +21,8 @@ public:
 	Board();
 	Board(bool isTrainingBoard);
 	std::shared_ptr<Player> getWonBy();
-	bool addCard(int card, int posX, int posY, std::string playerName);
+	int addCard(int card, int posX, int posY, std::string playerName, bool useIllusion);
+	bool checkForIllusion(int card);
 	bool checkIfCardIsInsideBoard(int & posX, int & posY);
 	bool checkIfCardCanBePlacedOnBoard(int card, int posX, int posY);
 	void removeCard(int card, int posX, int posY);

@@ -20,12 +20,13 @@ std::shared_ptr<Player> Board::getWonBy()
 
 
 
-bool Board::addCard(int card, int posX, int posY, std::string playerName)
+int Board::addCard(int card, int posX, int posY, std::string playerName, bool useIllusion)
 {
-	Card NewCard{ card, playerName };
+	Card NewCard{ card, playerName, useIllusion};
+
 	
 	if (!checkIfCardIsInsideBoard(posX, posY)) {
-		std::vector<std::vector<PlacedDeck>> aux(m_boardMatrix.size() + 1, std::vector<PlacedDeck>(m_boardMatrix.size() + 1, PlacedDeck(Card(-1, "."), 0, 0)));
+		std::vector<std::vector<PlacedDeck>> aux(m_boardMatrix.size() + 1, std::vector<PlacedDeck>(m_boardMatrix.size() + 1, PlacedDeck(Card(-1, ".", 0), 0, 0)));
 		
 		if (posX == 0 && posY == 0) {
 			for (int i = 0; i < m_boardMatrix.size(); i++) {
@@ -68,19 +69,35 @@ bool Board::addCard(int card, int posX, int posY, std::string playerName)
 	}
 	else {
 
+		if (m_boardMatrix[posX][posY].getLastCard().getPlayerName() == playerName && m_boardMatrix[posX][posY].getLastCard().checkIllusionStatus())
+		{
+			return 3;
+		}
+
 		if (checkIfCardCanBePlacedOnBoard(NewCard.getCardValue(), posX, posY))
 		{
+
+			if (m_boardMatrix[posX][posY].getLastCard().checkIllusionStatus())
+			{
+				m_boardMatrix[posX][posY].getLastCard().setIsIllusionStatus(0);
+			}
+
 			m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 			m_lastAddedCard = NewCard;
 		}
 		else
 		{
-			return false;
+			if (m_boardMatrix[posX][posY].getLastCard().checkIllusionStatus())
+			{
+				m_boardMatrix[posX][posY].getLastCard().setIsIllusionStatus(0);
+				std::cout << "return2";
+				return 2;
+			}
+			return 0;
 		}
 
 	}
-
-	return true;
+	return 1;
 }
 
 bool Board::checkIfCardIsInsideBoard(int & posX, int & posY)
@@ -298,7 +315,14 @@ std::ostream& operator<<(std::ostream& out, Board board)
 	if (board.m_boardMatrix.size() == 1) {
 
 		out << "00" << " " << "01" << " " << "02" << "\n";
-		out<<10<< "|" << board.m_boardMatrix[0][0].getLastCard().getCardValue() << "|" << 12 << "\n";
+		if (board.m_boardMatrix[0][0].getLastCard().checkIllusionStatus())
+		{
+			out << 10 << "|?|" << 12 << '\n';
+		}
+		else
+		{
+			out << 10 << "|" << board.m_boardMatrix[0][0].getLastCard().getCardValue() << "|" << 12 << "\n";
+		}
 		out << 20 << " " << 21 << " " << 22 << "\n";
  
 		return out;
@@ -309,7 +333,14 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.m_boardMatrix.size(); j++) {
-				out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+				if (board.m_boardMatrix[i][j].getLastCard().checkIllusionStatus())
+				{
+					out << "|?";
+				}
+				else
+				{
+					out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+				}
 			}
 			out << "| " << i + 1 << 3 << "\n";
 		}
@@ -323,7 +354,14 @@ std::ostream& operator<<(std::ostream& out, Board board)
 		for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 			out << i + 1 << 0 << " ";
 			for (int j = 0; j < board.m_boardMatrix.size(); j++) {
-				out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+				if (board.m_boardMatrix[i][j].getLastCard().checkIllusionStatus())
+				{
+					out << "|?";
+				}
+				else
+				{
+					out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+				}
 			}
 			out << "| " << i + 1 << 4 << "\n";
 		}
@@ -334,7 +372,14 @@ std::ostream& operator<<(std::ostream& out, Board board)
 
 	for (int i = 0; i < board.m_boardMatrix.size(); i++) {
 		for (int j = 0; j < board.m_boardMatrix.size(); j++) {
-			out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+			if (board.m_boardMatrix[i][j].getLastCard().checkIllusionStatus())
+			{
+				out << "|?";
+			}
+			else
+			{
+				out << "|" << board.m_boardMatrix[i][j].getLastCard().getCardValue();
+			}
 		}
 		out << "|" << "\n";
 	}

@@ -11,9 +11,10 @@ private:
 
 public:
 	Card();
-	Card(int card, std::string playerName);
+	Card(int card, std::string playerName, bool isIllusion);
 	int getCardValue();
 	void setIsIllusionStatus(bool status);
+	bool checkIllusionStatus();
 	std::string getPlayerName();
 };
 

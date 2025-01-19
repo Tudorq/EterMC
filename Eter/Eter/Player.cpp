@@ -101,13 +101,13 @@ void Player::removeRow(std::shared_ptr<Board> board, int row)
 {
 	for (int i = 0; i < board->m_boardMatrix.size(); i++)
 	{
-		board->m_boardMatrix[row][i] = PlacedDeck(Card(-1, ""), 0, 0);
+		board->m_boardMatrix[row][i] = PlacedDeck(Card(-1, "", 0), 0, 0);
 	}
 }
 
 void Player::coverCardWithSmallerNumber(std::shared_ptr<Board> board, int posX, int posY, int card, std::string playerName)
 {
-	Card NewCard{ card, playerName };
+	Card NewCard{ card, playerName, 0};
 
 	board->m_boardMatrix[posX][posY].addCardToDeck(NewCard);
 }
@@ -120,7 +120,7 @@ void Player::createHole(std::shared_ptr<Board> board, int posX, int posY)
 void Player::moveOwnBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
 {
 	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
-	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
+	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
 }
 
 void Player::getExtraEter()
@@ -131,12 +131,12 @@ void Player::getExtraEter()
 void Player::moveOtherBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
 {
 	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
-	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
+	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ".", 0), 0, 0);
 }
 
 void Player::moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool isPosition)
 {
-	std::vector<std::vector<PlacedDeck>> aux(board->m_boardMatrix.size(), std::vector<PlacedDeck>(board->m_boardMatrix.size(), PlacedDeck(Card(-1, ""), 0, 0)));
+	std::vector<std::vector<PlacedDeck>> aux(board->m_boardMatrix.size(), std::vector<PlacedDeck>(board->m_boardMatrix.size(), PlacedDeck(Card(-1, ".", 0), 0, 0)));
 
 	for (int i = 0; i < board->m_boardMatrix.size(); i++)
 	{
