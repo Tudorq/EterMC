@@ -16,12 +16,14 @@ private:
 	bool m_isLastTurn;
 	bool m_playedLastTurn;
 	Board m_board;
+	int m_gameMode;
 public:
 	ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2, int gameMode);
 	int startMatch();
 	bool startTurn(std::shared_ptr<Player> currentPlayer);
 	bool checkIfMatchIsDraw();
 	std::string playerWhoWon();
+	void handleWizard(std::shared_ptr<Player> currentPlayer);
 
 };
 

@@ -26,7 +26,6 @@ public:
 	void setName(std::string name);
 	std::string getName();
 	void setWizard();
-	//Wizard getWizard();
 	void setDeck(std::vector<int> deck);
 	std::vector<int> getDeck();
 	void addCardToDeck(int card);
@@ -51,7 +50,6 @@ private:
 	bool m_usedWizard;
 	bool m_usedIllusion;
 	Power m_pickedPower;
-	bool wasUsed;
 
 };
 

@@ -13,13 +13,14 @@ ActiveMatch::ActiveMatch(std::shared_ptr<Player> player1, std::shared_ptr<Player
 	m_isLastTurn = false;
 	m_playedLastTurn = false;
 	m_playerWhoWon = "";
+	m_gameMode = gameMode;
 }
 
 int ActiveMatch::startMatch()
 {
 	int cardPicked;
 	int x, y;
-	std::cout << "Meciul a inceput \n";
+	std::cout << "Runda a inceput \n";
 
 	while (!m_isFinished) {
 		std::cout << m_board;
@@ -40,6 +41,7 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 {
 
 	int cardPicked;
+	int choice;
 	int x, y;
 	bool cardWasPlaced;
 
@@ -50,6 +52,17 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 	}
 
 	std::cout << "\n";
+
+	if (!m_gameMode && !currentPlayer->checkIfUsedIllusion())
+	{
+		std::cout << "Aveti o iluzie disponibila \n Folositi iluzia? 1. Da \n 2. nu \n";
+		std::cin >> choice;
+
+		if (choice == 1)
+		{
+
+		}
+	}
 
 	std::cout << "Alege cartea: ";
 
@@ -85,10 +98,10 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 
 		if (m_board.checkWinningConditions(m_player1, m_player2))
 		{
-			std::cout << "dsawda";
 			if (m_board.getWonBy() != nullptr)
 			{
 				m_playerWhoWon = m_board.getWonBy()->getName();
+				m_isFinished = true;
 			}
 			else if(m_board.getWonBy() == nullptr && m_playedLastTurn)
 			{
@@ -139,4 +152,8 @@ bool ActiveMatch::checkIfMatchIsDraw()
 std::string ActiveMatch::playerWhoWon()
 {
 	return m_playerWhoWon;
+}
+
+void ActiveMatch::handleWizard(std::shared_ptr<Player> currentPlayer)
+{
 }

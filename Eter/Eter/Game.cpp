@@ -26,15 +26,25 @@ void Game::createGame()
 
 	std::cout << "Bine ati venit " << m_player1->getName() << " si " << m_player2->getName() << "\n\n";
 
-	std::cout << "Alegeti modul de joc: \n 1. Modul antrenament \n 2. Duelul vrajitorilor \n ";
-	std::cin >> selectedGameMode;
-
-	while (selectedGameMode != 1 && selectedGameMode != 2) {
-		std::cout << "Ati selectat " << selectedGameMode << " care nu este un mod de joc valid\n Incercati din nou: ";
+	while (true)
+	{
+		std::cout << "Alegeti modul de joc: \n 1. Modul antrenament \n 2. Duelul vrajitorilor \n 3. Exit \n";
 		std::cin >> selectedGameMode;
+
+		while (selectedGameMode != 1 && selectedGameMode != 2 && selectedGameMode != 3) {
+			std::cout << "Ati selectat " << selectedGameMode << " care nu este un mod de joc valid\n Incercati din nou: ";
+			std::cin >> selectedGameMode;
+		}
+
+		if (selectedGameMode == 3)
+		{
+			break;
+		}
+
+		m_gameMode = selectedGameMode;
+		startGame();
 	}
 
-	m_gameMode = selectedGameMode;
 }
 
 void Game::startGame()
@@ -50,7 +60,7 @@ void Game::startGame()
 void Game::startGameModeTraining()
 {
 	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
-	while (roundsWonByPlayer1 != 2 || roundsWonByPlayer2 != 2) {
+	while (roundsWonByPlayer1 != 2 && roundsWonByPlayer2 != 2) {
 		m_player1->setDeckForGameMode(1);
 		m_player2->setDeckForGameMode(1);
 
@@ -70,19 +80,67 @@ void Game::startGameModeTraining()
 			}
 		}
 
+		std::cout << '\n';
+		std::cout << "Runda a fost castigata de " << match.playerWhoWon() << '\n';
 	}
+
 
 	if (roundsWonByPlayer1 > roundsWonByPlayer2)
 	{
+		std::cout << "Meciul a fost castigat de " << m_player1->getName()<<'\n';
 		m_playerScore1++;
 	}
 	else
 	{
+		std::cout << "Meciul a fost castigat de " << m_player2->getName()<<'\n';
 		m_playerScore2++;
 	}
 
+	std::cout << "Scor:" << '\n';
+	std::cout << m_player1->getName() << ": " << m_playerScore1<<'\n';
+	std::cout << m_player2->getName() << ": " << m_playerScore2 <<'\n';
 }
 
 void Game::startGameModeWizard()
 {
+	int roundsWonByPlayer1 = 0, roundsWonByPlayer2 = 0;
+	while (roundsWonByPlayer1 != 3 && roundsWonByPlayer2 != 3) {
+		m_player1->setDeckForGameMode(2);
+		m_player2->setDeckForGameMode(2);
+
+		ActiveMatch match{ m_player1, m_player2, 0};
+
+		match.startMatch();
+
+		if (!match.checkIfMatchIsDraw())
+		{
+			if (m_player1->getName() == match.playerWhoWon())
+			{
+				roundsWonByPlayer1++;
+			}
+			else
+			{
+				roundsWonByPlayer2++;
+			}
+		}
+
+		std::cout << '\n';
+		std::cout << "Runda a fost castigata de " << match.playerWhoWon() << '\n';
+	}
+
+
+	if (roundsWonByPlayer1 > roundsWonByPlayer2)
+	{
+		std::cout << "Meciul a fost castigat de " << m_player1->getName() << '\n';
+		m_playerScore1++;
+	}
+	else
+	{
+		std::cout << "Meciul a fost castigat de " << m_player2->getName() << '\n';
+		m_playerScore2++;
+	}
+
+	std::cout << "Scor:" << '\n';
+	std::cout << m_player1->getName() << ": " << m_playerScore1 << '\n';
+	std::cout << m_player2->getName() << ": " << m_playerScore2 << '\n';
 }
