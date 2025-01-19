@@ -171,8 +171,14 @@ bool Board::checkWinningConditions(std::shared_ptr<Player> player1, std::shared_
 	bool isWinningCondition = true;
 	std::string firstUserName;
 
+	if (m_boardMatrix.size() < 2)
+	{
+		return false;
+	}
+
 	if (checkLinesForWinningConditions(firstUserName))
 	{
+		std::cout << "test";
 		if (firstUserName == player1->getName())
 		{
 			m_wonBy = player1;
@@ -183,7 +189,7 @@ bool Board::checkWinningConditions(std::shared_ptr<Player> player1, std::shared_
 
 		return true;
 	}
-
+	
 	for (int i = 0; i < m_boardMatrix.size(); i++)
 	{
 		for (int j = 0; j < m_boardMatrix.size(); j++)
@@ -215,6 +221,7 @@ bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 	for (int i = 0; i < boardLength; i++)
 	{
 		firstUserName = m_boardMatrix[i][0].getLastCard().getPlayerName();
+		
 		for (int j = 1; j < boardLength; j++)
 		{
 			if (m_boardMatrix[i][j].getLastCard().getPlayerName() != firstUserName)
@@ -228,7 +235,7 @@ bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 			return true;
 		}
 	}
-
+	std::cout << "aaaaaaaaaaaa";
 	for (int i = 0; i < boardLength; i++)
 	{
 		firstUserName = m_boardMatrix[0][i].getLastCard().getPlayerName();
@@ -245,7 +252,7 @@ bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 			return true;
 		}
 	}
-
+	std::cout << "bbbbbbbbbbb";
 	for (int i = 0; i < boardLength; i++)
 	{
 		firstUserName = m_boardMatrix[0][0].getLastCard().getPlayerName();
@@ -261,6 +268,7 @@ bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 			return true;
 		}
 	}
+	std::cout << "cccccccccccccccccccccc";
 
 	for (int i = 0; i < boardLength; i++)
 	{
@@ -276,6 +284,7 @@ bool Board::checkLinesForWinningConditions(std::string & firstUserName)
 			return true;
 		}
 	}
+	std::cout << "dddddddddddddddddd";
 }
 
 std::ostream& operator<<(std::ostream& out, Board board)

@@ -1,5 +1,7 @@
 #pragma once
+#include "Player.h"
 #include <vector>
+#include <memory>
 #include <iostream>
 #include <queue>
 #include "PlacedDeck.h"
@@ -11,6 +13,7 @@ private:
 	bool m_isTrainingBoard;
 	Card m_lastAddedCard;
 	std::shared_ptr<Player> m_wonBy;
+
 
 public:
 	std::vector<std::vector<PlacedDeck>> m_boardMatrix;

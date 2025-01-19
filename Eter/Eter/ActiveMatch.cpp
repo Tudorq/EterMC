@@ -85,7 +85,7 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 
 		if (m_board.checkWinningConditions(m_player1, m_player2))
 		{
-
+			std::cout << "dsawda";
 			if (m_board.getWonBy() != nullptr)
 			{
 				m_playerWhoWon = m_board.getWonBy()->getName();
@@ -101,6 +101,7 @@ bool ActiveMatch::startTurn(std::shared_ptr<Player> currentPlayer)
 				{
 					m_playerWhoWon = m_board.getWonBy()->getName();
 				}
+				m_isFinished = true;
 			}
 			else
 			{

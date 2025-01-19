@@ -15,6 +15,11 @@ int Card::getCardValue()
 	return m_cardValue;
 }
 
+void Card::setIsIllusionStatus(bool status)
+{
+	m_isIllusion = status;
+}
+
 std::string Card::getPlayerName()
 {
 	return m_playerName;

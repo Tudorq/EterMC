@@ -1,10 +1,11 @@
 #include "Player.h"
+#include "Board.h"
 
 Player::Player()
 {
 	m_hasWizard = 0;
 	m_usedWizard = 0;
-
+	m_usedIllusion = false;
 }
 
 Player::Player(std::string name)
@@ -12,6 +13,7 @@ Player::Player(std::string name)
 	setName(name);
 	m_hasWizard = 0;
 	m_usedWizard = 0;
+	m_usedIllusion = false;
 }
 
 void Player::setName(std::string name)
@@ -35,10 +37,10 @@ void Player::setWizard()
 
 }
 
-Wizard Player::getWizard()
-{
-	return Wizard();
-}
+//Wizard Player::getWizard()
+//{
+//	return m_wizard;
+//}
 
 void Player::setDeck(std::vector<int> deck)
 {
@@ -74,7 +76,118 @@ bool Player::checkIfDeckIsEmpty()
 	return false;
 }
 
+bool Player::checkIfUsedIllusion()
+{
+	return m_usedIllusion;
+}
+
+void Player::useIllusion()
+{
+	m_usedIllusion = true;
+}
+
 void Player::removePlacedCardFromDeck(int card)
 {
 	m_deck.erase(find(m_deck.begin(), m_deck.end(), card));
+}
+
+
+void Player::removeCard(std::shared_ptr<Board> board, int posX, int posY)
+{
+	board->m_boardMatrix[posX][posY].removeLastCardFromDeck();
+}
+
+void Player::removeRow(std::shared_ptr<Board> board, int row)
+{
+	for (int i = 0; i < board->m_boardMatrix.size(); i++)
+	{
+		board->m_boardMatrix[row][i] = PlacedDeck(Card(-1, ""), 0, 0);
+	}
+}
+
+void Player::coverCardWithSmallerNumber(std::shared_ptr<Board> board, int posX, int posY, int card, std::string playerName)
+{
+	Card NewCard{ card, playerName };
+
+	board->m_boardMatrix[posX][posY].addCardToDeck(NewCard);
+}
+
+void Player::createHole(std::shared_ptr<Board> board, int posX, int posY)
+{
+	board->m_secondaryMatrix[posX][posY] = -2;
+}
+
+void Player::moveOwnBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
+{
+	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
+	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
+}
+
+void Player::getExtraEter()
+{
+	addCardToDeck(0);
+}
+
+void Player::moveOtherBoardDeck(std::shared_ptr<Board> board, int posX1, int posY1, int posX2, int posY2)
+{
+	board->m_boardMatrix[posX2][posY2] = board->m_boardMatrix[posX1][posY1];
+	board->m_boardMatrix[posX1][posY1] = PlacedDeck(Card(-1, ""), 0, 0);
+}
+
+void Player::moveEdgeRow(std::shared_ptr<Board> board, bool isRow, bool isPosition)
+{
+	std::vector<std::vector<PlacedDeck>> aux(board->m_boardMatrix.size(), std::vector<PlacedDeck>(board->m_boardMatrix.size(), PlacedDeck(Card(-1, ""), 0, 0)));
+
+	for (int i = 0; i < board->m_boardMatrix.size(); i++)
+	{
+		for (int j = 0; j < board->m_boardMatrix.size(); j++)
+		{
+			if (isRow)
+			{
+				if (isPosition)
+				{
+					if (i == 0)
+					{
+						aux[board->m_boardMatrix.size() - 1][j] = board->m_boardMatrix[i][j];
+					}
+					else {
+						aux[i - 1][j] = board->m_boardMatrix[i][j];
+					}
+				}
+				else
+				{
+					if (i == board->m_boardMatrix.size() - 1)
+					{
+						aux[0][j] = board->m_boardMatrix[i][j];
+					}
+					else {
+						aux[i + 1][j] = board->m_boardMatrix[i][j];
+					}
+				}
+			}
+			else
+			{
+				if (isPosition)
+				{
+					if (j == 0)
+					{
+						aux[j][board->m_boardMatrix.size() - 1] = board->m_boardMatrix[j][i];
+					}
+					else {
+						aux[j - 1][i] = board->m_boardMatrix[j][i];
+					}
+				}
+				else
+				{
+					if (j == board->m_boardMatrix.size() - 1)
+					{
+						aux[j][0] = board->m_boardMatrix[j][i];
+					}
+					else {
+						aux[j + 1][i] = board->m_boardMatrix[j][i];
+					}
+				}
+			}
+		}
+	}
 }
